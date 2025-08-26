@@ -33,7 +33,7 @@ On testnet/mainnet, you’ll need to fund the account from a public faucet.
 ⚠️ Never share real mnemonics or use them in production.
 
 ---
-### 1. git clone https://github.com/your-username/algorand-js-demo.git
+### 1. git clone [https://github.com/Sayangenri/algorand-js-sdk-demo.git]
 cd algorand-js-demo
 
 ### 2. Setup backend
