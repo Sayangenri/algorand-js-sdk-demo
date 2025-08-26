@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Algorand Frontend Demo</title>
+  <style>
+    body {
+      font-family: "Inter", Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .wallet-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      width: 420px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #38bdf8;
+      letter-spacing: 1px;
+    }
+
+    .wallet-address {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      color: #f1f5f9;
+      margin-bottom: 20px;
+      word-break: break-word;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #06b6d4, #2563eb);
+      color: white;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      text-align: left;
+      font-family: monospace;
+      white-space: pre-line;
+      word-wrap: break-word;
+      color: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="wallet-container">
+    <h1>Algorand Wallet Demo</h1>
+
+    <!-- Wallet Address Section -->
+    <div id="wallet-address" class="wallet-address">
+      No Account created yet ❌
+    </div>
+
+    <!-- Buttons -->
+    <button onclick="createAccount()">🆕 Create Account</button>
+    <button onclick="checkBalance()">💰 Check Balance</button>
+    <button onclick="fundAccount()">⚡ Fund 10 ALGO</button>
+
+    <!-- Output Section -->
+    <div class="output" id="output">Your output will appear here...</div>
+  </div>
+
+  <script>
+    let accountAddress = "";
+
+    async function createAccount() {
+      const res = await fetch("http://localhost:4000/create-account", { method: "POST" });
+      const data = await res.json();
+      accountAddress = data.address;
+
+      // Embed wallet address permanently
+      document.getElementById("wallet-address").innerText = `Wallet: ${data.address}`;
+      document.getElementById("output").innerText = `Mnemonic:\n${data.mnemonic}`;
+    }
+
+    async function checkBalance() {
+      if (!accountAddress) return alert("Create account first!");
+      const res = await fetch(`http://localhost:4000/balance/${accountAddress}`);
+      const data = await res.json();
+      document.getElementById("output").innerText = `Balance: ${data.balance} ALGO`;
+    }
+
+    async function fundAccount() {
+      if (!accountAddress) return alert("Create account first!");
+      const res = await fetch("http://localhost:4000/fund", { method: "POST" });
+      const data = await res.json();
+      document.getElementById("output").innerText = data.message;
+    }
+  </script>
+</body>
+</html>
