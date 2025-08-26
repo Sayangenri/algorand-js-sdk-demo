@@ -8,9 +8,8 @@ It allows you to:
 - Fund account from a dispenser (localnet)
 - Interact with these features via a simple web frontend
 
----
 
-## ⚡ Prerequisites
+# ⚡ Prerequisites
 
 Make sure you have installed:
 
@@ -41,10 +40,10 @@ cd backend
 npm init -y
 npm install express cors algosdk
 
-2. Open frontend:
+### 3. Open frontend:
 - Go to `frontend/index.html` in your browser.
 
-3. Use the UI buttons:
+### 4. Use the UI buttons:
 - **Create Account** → Generates a new Algorand account  
 - **Check Balance** → Fetches account balance from Algorand node  
 - **Fund 10 ALGO** → Funds account via localnet faucet  
